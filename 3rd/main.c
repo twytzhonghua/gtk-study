@@ -43,6 +43,10 @@ int main( int argc, char *argv[])
     /*函数gtk_window_set_icon() 是为窗口设置图标用的，函数create_pixbuf是我们自定义的，目的是从一个图片中获取信息得到pixbuf。*/
     gtk_window_set_icon(GTK_WINDOW(window), create_pixbuf("./gtk.png"));
 
+/***********************************以下是信号处理部分************************************/
+
+    /*关闭窗口时退出主循环*/
+    g_signal_connect_swapped(G_OBJECT(window),"destroy",G_CALLBACK(gtk_main_quit), NULL);
     /*开始显示窗口*/
     gtk_widget_show(window);
     gtk_main();
