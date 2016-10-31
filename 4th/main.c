@@ -30,6 +30,16 @@ void menu_pressed(GtkWidget *widget, gpointer window)
 }
 
 
+//根据菜单栏的选择(check)控制一些构件的显示和隐藏
+void toggle_display(GtkWidget *widget, gpointer oneofwidget)
+{
+    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+        gtk_widget_show(oneofwidget);
+    } else {
+        gtk_widget_hide(oneofwidget);
+    }
+}
+
 int main( int argc, char *argv[])
 {
     GtkWidget *window;
@@ -70,8 +80,13 @@ int main( int argc, char *argv[])
 
     menutoggle = gtk_menu_new();   //这里代表第一列菜单toggle ,也是一个menu shell
     menu_tog_toggle = gtk_menu_item_new_with_label("View");
-    menu_tog_toolbar = gtk_menu_item_new_with_label("show Toolbar"); //toggle 菜单中子项
-    menu_tog_statusbar = gtk_menu_item_new_with_label("show Statusbar");
+ //   menu_tog_toolbar = gtk_menu_item_new_with_label("show Toolbar"); //toggle 菜单中子项
+ //   menu_tog_statusbar = gtk_menu_item_new_with_label("show Statusbar");
+
+    menu_tog_toolbar = gtk_check_menu_item_new_with_label("show Toolbar");
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_tog_toolbar),TRUE);
+    menu_tog_statusbar = gtk_check_menu_item_new_with_label("show Statusbar");
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_tog_statusbar),TRUE);
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_tog_toggle), menutoggle);  //widget toggle菜单加入 menutoggle menu shell
     gtk_menu_shell_append(GTK_MENU_SHELL(menutoggle), menu_tog_toolbar);
@@ -109,8 +124,8 @@ int main( int argc, char *argv[])
     g_signal_connect_swapped(G_OBJECT(window),"destroy",G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(G_OBJECT(tool_exit), "clicked",G_CALLBACK(gtk_main_quit), NULL);
 
-    g_signal_connect(G_OBJECT(menu_tog_toolbar),"activate",G_CALLBACK(menu_pressed), G_OBJECT(statusbar));
-    g_signal_connect(G_OBJECT(menu_tog_statusbar),"activate",G_CALLBACK(menu_pressed), G_OBJECT(statusbar));
+    //g_signal_connect(G_OBJECT(menu_tog_toolbar),"activate",G_CALLBACK(menu_pressed), G_OBJECT(statusbar));
+    //g_signal_connect(G_OBJECT(menu_tog_statusbar),"activate",G_CALLBACK(menu_pressed), G_OBJECT(statusbar));
 
     /***********************************以下是显示控件部分************************************/
     /*开始显示窗口*/
